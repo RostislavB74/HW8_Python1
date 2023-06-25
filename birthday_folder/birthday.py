@@ -16,51 +16,48 @@ users = [
 ]
 
 
-def get_period():  # -> tuple[datetime.date, datetime.date]:
-    current_date = datetime.now()
-    # datetime(2023, 2, 20)
-    # print(current_date)  #
-    start_period = current_date + \
-        timedelta(days=5-(current_date.weekday()))
-    return start_period.date(), (start_period + timedelta(10)).date()
-
-
 def check_epl(list_of_emp: list) -> None:
     result = defaultdict(list)
-    # print(type(result))
-    current_date = datetime.now().date()
-    current_year = datetime.now().year
+    # current_date = datetime(2024, 2, 23).date() # test 29 february not leap
+    current_date = current_data().date()
+    current_year = current_data().year
     for users in list_of_emp:
-
         bd = users["birthday"]
-        # print(bd)
         if isinstance(bd, datetime):
             bd = bd.date()
         else:
             bd = datetime.strptime(bd, "%d.%m.%Y").date()
         if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and (current_year % 100 != 0 or current_year % 400 == 0)):
             bd = bd.replace(day=1, month=3, year=current_year)
+
         bd = bd.replace(year=current_year)
-        # print(bd)
         start, end = get_period()
-        # print(result.items())
         if start <= bd <= end:
-            # print(bd.day)
             if bd.weekday() in (5, 6):
-                # print(bd.weekday())
-                # bd.weekday = datetime.'Monday'
                 bd = current_date + timedelta(days=7-(current_date.weekday()))
                 result[bd].append(users['name'])
-                # print(bd)
             else:
                 result[bd].append(users['name'])
 
     return result
 
 
+def current_data():
+    current_data = datetime.now()
+    return (current_data)
+
+
+def get_period():  # -> tuple[datetime.date, datetime.date]:
+    current_date = current_data()
+    # current_date = datetime(2023, 12, 28) # test change year
+    # current_date = datetime(2023, 2, 23) # test 29 february not leap
+    # current_date = datetime(2024, 2, 23) # test 29 february leap
+    # print(current_date)  #
+    start_period = current_date + \
+        timedelta(days=5-(current_date.weekday()))
+    return start_period.date(), (start_period + timedelta(6)).date()
+
+
 if __name__ == "__main__":
     for key, value in check_epl(users).items():
-        # print(value)
         print(key.strftime("%A"), value)
-        # print(key, value)
-    # print(get_period())

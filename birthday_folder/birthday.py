@@ -27,7 +27,9 @@ def check_epl(list_of_emp: list) -> None:
             bd = bd.date()
         else:
             bd = datetime.strptime(bd, "%d.%m.%Y").date()
-        if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and (current_year % 100 != 0 or current_year % 400 == 0)):
+        if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and
+                                                   (current_year % 100 != 0 or
+                                                    current_year % 400 == 0)):
             bd = bd.replace(day=1, month=3, year=current_year)
 
         bd = bd.replace(year=current_year)

@@ -16,13 +16,13 @@ users = [
 ]
 
 
-def check_epl(list_of_emp: list) -> None:
+def check_users(list_of_emp: list) -> None:
     result = defaultdict(list)
-    # current_date = datetime(2024, 2, 23).date() # test 29 february not leap
     current_date = current_data().date()
     current_year = current_data().year
     for users in list_of_emp:
         bd = users["birthday"]
+
         if isinstance(bd, datetime):
             bd = bd.date()
         else:
@@ -34,7 +34,9 @@ def check_epl(list_of_emp: list) -> None:
 
         bd = bd.replace(year=current_year)
         start, end = get_period()
+        # print(start, end)
         if start <= bd <= end:
+
             if bd.weekday() in (5, 6):
                 bd = current_date + timedelta(days=7-(current_date.weekday()))
                 result[bd].append(users['name'])
@@ -51,15 +53,16 @@ def current_data():
 
 def get_period():  # -> tuple[datetime.date, datetime.date]:
     current_date = current_data()
-    # current_date = datetime(2023, 12, 28) # test change year
+    # current_date = datetime(2023, 12, 30)  # test change year
     # current_date = datetime(2023, 2, 23) # test 29 february not leap
     # current_date = datetime(2024, 2, 23) # test 29 february leap
     # print(current_date)  #
     start_period = current_date + \
         timedelta(days=5-(current_date.weekday()))
+
     return start_period.date(), (start_period + timedelta(6)).date()
 
 
 if __name__ == "__main__":
-    for key, value in check_epl(users).items():
+    for key, value in check_users(users).items():
         print(key.strftime("%A"), value)

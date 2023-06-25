@@ -16,10 +16,20 @@ users = [
 ]
 
 
+def get_bd(start, end, bd):
+    if (start.day <= bd.day <= end.day):
+        if (start.month <= bd.month <= end.month):
+            bd = bd.replace(year=end.year)
+        print(bd)
+    return bd
+
+
 def check_users(list_of_emp: list) -> None:
     result = defaultdict(list)
     current_date = current_data().date()
     current_year = current_data().year
+    start, end = get_period()
+
     for users in list_of_emp:
         bd = users["birthday"]
 
@@ -31,12 +41,11 @@ def check_users(list_of_emp: list) -> None:
                                                    (current_year % 100 != 0 or
                                                     current_year % 400 == 0)):
             bd = bd.replace(day=1, month=3, year=current_year)
-
         bd = bd.replace(year=current_year)
-        start, end = get_period()
-        bd1 = bd.replace(year=current_year)
-        if (start.day <= bd1.day <= end.day) and (start.month <= bd1.month <= end.month):
-            print(bd1)
+        if (end.year-start.year) >= 1:
+            # (get_bd(start, end, bd))
+            bd = get_bd(start, end, bd)
+
         if start <= bd <= end:
 
             if bd.weekday() in (5, 6):
@@ -49,20 +58,16 @@ def check_users(list_of_emp: list) -> None:
 
 
 def current_data():
-    current_data = datetime.now()
+    current_data = datetime(2022, 12, 28)  # datetime.now()
     return (current_data)
 
 
 def get_period():  # -> tuple[datetime.date, datetime.date]:
     current_date = current_data()
-    # current_date = datetime(2023, 12, 30)  # test change year
-    # current_date = datetime(2023, 2, 23) # test 29 february not leap
-    # current_date = datetime(2024, 2, 23) # test 29 february leap
-    # print(current_date)  #
     start_period = current_date + \
         timedelta(days=5-(current_date.weekday()))
 
-    return start_period.date(), (start_period + timedelta(6)).date()
+    return start_period.date(), (start_period + timedelta(8)).date()
 
 
 if __name__ == "__main__":

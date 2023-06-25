@@ -12,7 +12,7 @@ users = [
     {'name': 'Srgey Gudilin', 'birthday': datetime(1972, 2, 29)},
     {'name': 'Vladimir Metelev', 'birthday': datetime(1982, 12, 31)},
     {'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 1, 1)},
-    {'name': 'Leonid Chayka', 'birthday': datetime(1949, 6, 26)},
+    {'name': 'Leonid Chayka', 'birthday': '26-6-1949'},
 ]
 
 
@@ -26,7 +26,7 @@ def check_epl(list_of_emp: list) -> None:
         if isinstance(bd, datetime):
             bd = bd.date()
         else:
-            bd = datetime.strptime(bd, "%d.%m.%Y").date()
+            bd = datetime.strptime(bd, "%d-%m-%Y").date()
         if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and
                                                    (current_year % 100 != 0 or
                                                     current_year % 400 == 0)):

@@ -16,11 +16,31 @@ users = [
 ]
 
 
-def get_bd(start, end, bd):
-    if (start.day <= bd.day <= end.day):
-        if (start.month <= bd.month <= end.month):
-            bd = bd.replace(year=end.year)
-        print(bd)
+def get_bd(start, end, list_of_emp, current_year, current_date):
+    for users in list_of_emp:
+        bd = users["birthday"]
+        if (start.day <= bd.day <= end.day):
+            if (start.month <= bd.month <= end.month):
+                bd = bd.replace(year=end.year)
+            if isinstance(bd, datetime):
+                bd = bd.date()
+            else:
+                bd = datetime.strptime(bd, "%d-%m-%Y").date()
+            if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and
+                                                       (current_year % 100 != 0 or
+                                                        current_year % 400 == 0)):
+                bd = bd.replace(day=1, month=3, year=current_year)
+            bd = bd.replace(year=current_year)
+            if (end.year-start.year) >= 1:
+                # (get_bd(start, end, bd))
+                bd = get_bd(start, end, bd)
+
+            if start <= bd <= end:
+
+                if bd.weekday() in (5, 6):
+                    bd = current_date + \
+                        timedelta(days=7-(current_date.weekday()))
+
     return bd
 
 
@@ -29,30 +49,9 @@ def check_users(list_of_emp: list) -> None:
     current_date = current_data().date()
     current_year = current_data().year
     start, end = get_period()
+    bd = get_bd(start, end, list_of_emp, current_year, current_date)
 
-    for users in list_of_emp:
-        bd = users["birthday"]
-
-        if isinstance(bd, datetime):
-            bd = bd.date()
-        else:
-            bd = datetime.strptime(bd, "%d-%m-%Y").date()
-        if bd.month == 2 and bd.day == 29 and not (current_year % 4 == 0 and
-                                                   (current_year % 100 != 0 or
-                                                    current_year % 400 == 0)):
-            bd = bd.replace(day=1, month=3, year=current_year)
-        bd = bd.replace(year=current_year)
-        if (end.year-start.year) >= 1:
-            # (get_bd(start, end, bd))
-            bd = get_bd(start, end, bd)
-
-        if start <= bd <= end:
-
-            if bd.weekday() in (5, 6):
-                bd = current_date + timedelta(days=7-(current_date.weekday()))
-                result[bd].append(users['name'])
-            else:
-                result[bd].append(users['name'])
+    result[bd].append(users['name'])
 
     return result
 

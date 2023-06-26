@@ -16,7 +16,18 @@ users = [
 ]
 
 
-def check_users(list_of_emp: list) -> None:
+def current_data():
+    # current_data = datetime(2023, 6, 25)
+    # current_date = datetime(2023, 12, 30)  # not tested change year
+    # current_date = datetime(2023, 2, 23) # test 29 february not leap
+    # current_date = datetime(2024, 2, 23) # test 29 february leap
+    # print(current_date)  #
+    current_data =datetime.now()
+    
+    return (current_data)
+
+
+def get_birthdays_per_week(list_of_emp: list) -> None:
     result = defaultdict(list)
     current_date = current_data().date()
     current_year = current_data().year
@@ -47,24 +58,14 @@ def check_users(list_of_emp: list) -> None:
     return result
 
 
-def current_data():
-    #current_data = datetime(2023, 6, 25)
-    current_data =datetime.now()
-    
-    return (current_data)
-
-
-def get_period():  # -> tuple[datetime.date, datetime.date]:
+def get_period():
     current_date = current_data()
-    # current_date = datetime(2023, 12, 30)  # test change year
-    # current_date = datetime(2023, 2, 23) # test 29 february not leap
-    # current_date = datetime(2024, 2, 23) # test 29 february leap
-    # print(current_date)  #
+    
     start_period = current_date + timedelta(days=5-(current_date.weekday()))
 
     return start_period.date(), (start_period + timedelta(6)).date()
 
 
 if __name__ == "__main__":
-    for key, value in check_users(users).items():
+    for key, value in get_birthdays_per_week(users).items():
         print(key.strftime("%A"), value)

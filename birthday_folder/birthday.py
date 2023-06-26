@@ -11,7 +11,7 @@ users = [
     {'name': 'Fedor Bulko', 'birthday': datetime(1980, 6, 26)},
     {'name': 'Srgey Gudilin', 'birthday': datetime(1972, 2, 29)},
     {'name': 'Vladimir Metelev', 'birthday': datetime(1982, 12, 31)},
-    {'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 1, 1)},
+    {'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 7, 3)},
     {'name': 'Leonid Chayka', 'birthday': '26-6-1949'},
 ]
 
@@ -34,9 +34,10 @@ def check_users(list_of_emp: list) -> None:
 
         bd = bd.replace(year=current_year)
         start, end = get_period()
-        # print(start, end)
+       # print(start, end)
+       #print(bd)
         if start <= bd <= end:
-
+            
             if bd.weekday() in (5, 6):
                 bd = current_date + timedelta(days=7-(current_date.weekday()))
                 result[bd].append(users['name'])
@@ -47,7 +48,9 @@ def check_users(list_of_emp: list) -> None:
 
 
 def current_data():
-    current_data = datetime.now()
+    #current_data = datetime(2023, 6, 25)
+    current_data =datetime.now()
+    
     return (current_data)
 
 
@@ -57,8 +60,7 @@ def get_period():  # -> tuple[datetime.date, datetime.date]:
     # current_date = datetime(2023, 2, 23) # test 29 february not leap
     # current_date = datetime(2024, 2, 23) # test 29 february leap
     # print(current_date)  #
-    start_period = current_date + \
-        timedelta(days=5-(current_date.weekday()))
+    start_period = current_date + timedelta(days=5-(current_date.weekday()))
 
     return start_period.date(), (start_period + timedelta(6)).date()
 

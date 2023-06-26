@@ -2,23 +2,13 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 
 
-# users = [
-#     {'name': 'Rostyslav Bysko', 'birthday': datetime(1974, 4, 25)},
-#     {'name': 'Sergey Korchuk', 'birthday': datetime(1976, 7, 25)},
-#     {'name': 'Alexandr Korchuk', 'birthday': datetime(1984, 10, 20)},
-#     {'name': 'Viktor Bakharev', 'birthday': datetime(1962, 6, 23)},
-#     {'name': 'Svetlana Vratskaya', 'birthday': datetime(1974, 6, 24)},
-#     {'name': 'Fedor Bulko', 'birthday': datetime(1980, 6, 26)},
-#     {'name': 'Srgey Gudilin', 'birthday': datetime(1972, 2, 29)},
-#     {'name': 'Vladimir Metelev', 'birthday': datetime(1982, 12, 31)},
-#     {'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 1, 1)},
-#     {'name': 'Leonid Chayka', 'birthday': datetime(1949, 6,26)},
-# ]
-users = [
+users = [{'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 1, 1)},
+         {'name': 'Leonid Chayka', 'birthday': datetime(1949, 12, 26)}]
 
-    {'name': 'Dmitry Kryvsha', 'birthday': datetime(1988, 1, 1)},
-    {'name': 'Leonid Chayka', 'birthday': datetime(1949, 12, 26)},
-]
+
+def current_data():
+    current_data = datetime(2022, 12, 20)  # datetime.now()
+    return (current_data)
 
 
 def get_bd(start, end, list_of_emp, current_year, current_date):
@@ -67,20 +57,16 @@ def get_birthdays_per_week(list_of_emp: list) -> None:
     current_year = current_data().year
     start, end = get_period()
     result = get_bd(start, end, list_of_emp, current_year, current_date)
-    return result
-
-
-def current_data():
-    current_data = datetime(2022, 12, 20)  # datetime.now()
-    return (current_data)
+    print(result)
 
 
 def get_period():  # -> tuple[datetime.date, datetime.date]:
     current_date = current_data()
     start_period = current_date + \
         timedelta(days=5-(current_date.weekday()))
+    end_period = start_period + timedelta(18)
 
-    return start_period.date(), (start_period + timedelta(18)).date()
+    return start_period.date(), end_period.date()
 
 
 if __name__ == "__main__":

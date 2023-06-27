@@ -54,8 +54,8 @@ def get_birthdays_per_week(list_of_emp: list) -> None:
                 result[bd].append(users['name'])
             else:
                 result[bd].append(users['name'])
-    sort_dict = sorted(result)
-    return sort_dict
+                # sort_dict = sorted(result)
+    return result
 
 
 def get_period():
@@ -68,4 +68,5 @@ def get_period():
 
 if __name__ == "__main__":
     for key, value in get_birthdays_per_week(users).items():
-        print(key.strftime("%A"), value)
+        print(f'{key.strftime("%A")} : {value}')
+        print(type(value))
